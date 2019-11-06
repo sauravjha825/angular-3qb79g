@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgForm,FormGroup,FormControl,FormArray,Validators } from '@angular/forms';
 import { ActivatedRoute,Params,Router } from '@angular/router';
+import { Patient } from '../patient.model';
 import { PatientService } from '../patient.service';
 @Component({
   selector: 'app-patient-registration',
@@ -8,33 +9,27 @@ import { PatientService } from '../patient.service';
   styleUrls: ['./patient-registration.component.css']
 })
 export class PatientRegistrationComponent implements OnInit {
-  patientForm: FormGroup;
-  constructor(private pService:PatientService) { }
+  patient: Patient = new Patient();
+  submitted = false;
+  constructor(private pService:PatientService, private router: Router) { }
 
   ngOnInit() {
-    this.InitForm();
+  }
+  newPatient(): void {
+    this.submitted = false;
+    this.patient = new Patient();
+  }
+  save() {
+    this.pService.createPatient(this.patient)
+      .subscribe(data => console.log(data), error => console.log(error));
+    this.patient = new Patient();
+    this.gotoList();
   }
    onSubmit(){
-     this.pService.addPatientDetails(this.patientForm.value);
+      this.submitted = true;
+      this.save(); 
    }
-private InitForm(){
-  let fnames='';
-  let lnames='';
-  let emailid='';
-  let dob='';
-  let mob='';
-  let addr='';
-  let genders='';
-  let image='';
-   this.patientForm=new FormGroup({
-     'fname':new FormControl(fnames, Validators.required),
-     'lname':new FormControl(lnames, Validators.required),
-     'email':new FormControl(emailid, Validators.required),
-     'bday':new FormControl(dob, Validators.required),
-     'contact':new FormControl(mob, Validators.required),
-     'address':new FormControl(addr, Validators.required),
-     'gender':new FormControl(genders, Validators.required),
-     'imagePath':new FormControl(image,Validators.required),
-   });
-}
+   gotoList() {
+    this.router.navigate(['/viewpatient']);
+  }
 }
