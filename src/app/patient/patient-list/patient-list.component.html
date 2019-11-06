@@ -1,0 +1,43 @@
+<br /><br />
+<h2>Patient Details Summary</h2><br /><br />
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="tab">
+          <thead >
+            <tr>
+             <th>First Name</th>
+             <th>Last Name </th>
+             <th>Gender </th>
+             <th>Email Address </th>
+             <th>Date of Birth </th>
+             <th>Home Address</th>
+             <th>Mobile Number</th>
+             <th>Patient Image</th>
+             <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let el of patientList">
+            <tr>
+               <td>{{el.fname}}</td>
+               <td>{{el.lname}}</td>
+               <td>{{el.gender}}</td>
+               <td>{{el.email}}</td>
+               <td>{{el.bday}}</td>
+               <td>{{el.address}}</td>
+               <td>{{el.contact}}</td>
+               <td> <img
+          [src]="el.imagePath"
+          alt="{{ el.name }}"
+          class="img-responsive"
+          style="max-height: 50px;"></td>
+               <td>Add/Update</td>
+            </tr>
+          </tbody>
+        </table>
+      </div><!--end of .table-responsive-->
+    </div>
+  </div>
+</div>
+
